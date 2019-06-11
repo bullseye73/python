@@ -1,11 +1,11 @@
 import os
 import xlsxwriter
 
-def readFileName(ws, path):
+def readFileName(wb, ws, path):
 	filenames = os.listdir(path)
-
-	ws.write('A1', 'Path')
-	ws.write('B1', 'FileName')
+	bold = wb.add_format({'bold': True})
+	ws.write('A1', 'Path', bold)
+	ws.write('B1', 'FileName', bold)
 	row = 1
 	col = 0
 
@@ -15,6 +15,8 @@ def readFileName(ws, path):
 		row += 1
 		#full_filename = os.path.join(path, filename)
 		#print (full_filename)
+	ws.write(row, 0, 'Total', bold)
+	ws.write(row, 1, '=counta(B2:B'+str(row)+')', bold)
 
 def main():
 	for i in os.listdir("./"):
@@ -23,7 +25,7 @@ def main():
 			print(rf)
 			workbook = xlsxwriter.Workbook(rf)
 			worksheet = workbook.add_worksheet()
-			readFileName(worksheet, i)
+			readFileName(workbook, worksheet, i)
 			workbook.close()
 
 
