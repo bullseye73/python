@@ -35,13 +35,13 @@ def readTxtFile(ws, fn):
                 col = 0
             else:
                 if row == 1:
-                    ws.write(row, col, rData[0])
-                    ws.write(row + 1, col, rData[rlen - 1])
+                    ws.write(row-1, col, rData[0])
+                    ws.write(row , col, rData[rlen - 1])
                 else:
                     ws.write(row, col, rData[rlen - 1])
                 col += 1
 def Usage():
-    print ("Usage: file compare [file1] [file2]")
+    print ("Usage: input folder [dir name]")
 
 def main():
     if len(sys.argv) != 2:
