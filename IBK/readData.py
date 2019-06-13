@@ -2,17 +2,23 @@
 
 import os, codecs
 import xlsxwriter
-import sys
+import sys, re, time
+
+def makeFileName (str):
+    fn = re.sub('[-=.#/?:$}]', '', str)
+    now = time.localtime()
+    s = "%04d%02d%02d_%02d%02d%02d" % (now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec)
+    return fn + "_" + s + ".xlsx"
 
 def search(dir):
     files = os.listdir(dir)
-    workbook = xlsxwriter.Workbook("result.xlsx")
+    workbook = xlsxwriter.Workbook(makeFileName(dir))
 
     for file in files:
         fullFilename = os.path.join(dir, file)
         print("is file : {0} ".format(fullFilename))
-        worksheet = workbook.add_worksheet(file)
-
+        fname, ext = os.path.splitext(file)
+        worksheet = workbook.add_worksheet(fname)
         readTxtFile(worksheet, fullFilename)
 
     workbook.close()
@@ -21,7 +27,6 @@ def readTxtFile(ws, fn):
     with codecs.open(fn, 'r', encoding="utf-8-sig") as f:
         row = 0
         col = 0
-
         for line in f:
             r = line.replace('\r\n', '').strip()
             rData = r.replace('"', '').split(',', 1)
@@ -40,6 +45,7 @@ def readTxtFile(ws, fn):
                 else:
                     ws.write(row, col, rData[rlen - 1])
                 col += 1
+
 def Usage():
     print ("Usage: input folder [dir name]")
 
