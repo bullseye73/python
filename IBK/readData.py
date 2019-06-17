@@ -24,9 +24,12 @@ def search(dir):
     workbook.close()
 
 def readTxtFile(ws, fn):
+    #strType = fn.split('_', 1)
+
     with codecs.open(fn, 'r', encoding="utf-8-sig") as f:
         row = 0
         col = 0
+
         for line in f:
             r = line.replace('\r\n', '').strip()
             rData = r.replace('"', '').split(',', 1)
@@ -35,15 +38,16 @@ def readTxtFile(ws, fn):
             if rlen <= 1:
                 continue
 
-            if 'set' in rData[0].lower():
+            if 'set name' in rData[0].lower():
                 row += 1
                 col = 0
             else:
+                val = rData[rlen - 1].replace(",", "")
                 if row == 1:
                     ws.write(row-1, col, rData[0])
-                    ws.write(row , col, rData[rlen - 1])
+                    ws.write(row , col, val)
                 else:
-                    ws.write(row, col, rData[rlen - 1])
+                    ws.write(row, col, val)
                 col += 1
 
 def Usage():
