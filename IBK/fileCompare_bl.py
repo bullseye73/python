@@ -57,18 +57,12 @@ def compareData(org, ret):
     return result
 
 def recognitionRate(str1, str2):
-    #return rateValue
     text1 = str(str1)
     text2 = str(str2)
     if str1 == None or str2 == None:
         return '0'
 
     diffCount = countDiff(text1, text2)
-    #totalCount = max(len(text1), len(text2))
-    #correntCount = len(text1) - diffCount
-    #rateValue = (correntCount / float(totalCount)) * 100
-
-    #print("[{0}][{1}][{2}][{3}][{4}]".format(diffCount, totalCount, correntCount, text1, text2))
     return diffCount
 
 def countDiff(text1, text2):
@@ -96,7 +90,6 @@ def writeCompareResult(xlsxData, txtData, retFileName):
     #nCols = len(xlsxData[0])
 
     #print('[{0}][{1}]'.format(len(txtData), len(txtData[0])))
-
     for i in range(nRows):
         if i == 0:
             worksheet.append(xlsxData[i])
@@ -106,7 +99,7 @@ def writeCompareResult(xlsxData, txtData, retFileName):
             worksheet.append(xlsxData[i])
             worksheet.append(compareData(xlsxData[i], txtData[i]))
         #for j in range(1, nCols):
-
+    os.remove(retFileName)
     workbook.save('ret_'+ retFileName)
     workbook.close()
 
@@ -180,18 +173,17 @@ def Usage():
     print ("Usage: input 2 file fullpath \n python fileCompare_bl.py [result txt fullpath name] [xlsx file fullpath name]")
 
 def main():
-    #if len(sys.argv) != 3:
-    #    Usage()
-    #    sys.exit()
-    fi = os.path.split('./result/result_BL_0612.txt')
+    if len(sys.argv) != 3:
+        Usage()
+        sys.exit()
+    fi = os.path.split(sys.argv[1])
     fname, ext = os.path.splitext(fi[1])
 
-    readTxtFile_ex('./result/result_BL_0612.txt')
+    readTxtFile_ex(sys.argv[1])
 
     txtRet = readXlsxFile(makeFileName_ex(fname))
-    xlsxRet = readXlsxFile('./comp/Trade_Data_GT_BL_1.xlsx')
+    xlsxRet = readXlsxFile(sys.argv[2])
     writeCompareResult(xlsxRet, txtRet, makeFileName_ex(fname))
-
 
 
 if __name__ == '__main__':
