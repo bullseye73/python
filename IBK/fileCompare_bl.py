@@ -3,17 +3,18 @@
 import os, codecs
 import openpyxl
 import sys, re, time
-import diff_match_patch as dmp_module
-
+from libs import diff_match_patch as dmp_module
+import numpy as np
+'''
 def makeFileName (str):
     fn = re.sub('[-=.#/?:$}]', '', str)
     now = time.localtime()
     s = "%04d%02d%02d_%02d%02d%02d" % (now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec)
     return fn + "_" + s + ".xlsx"
-
+'''
 def makeFileName_ex (str):
     return str + ".xlsx"
-
+'''
 def search(dir):
     files = os.listdir(dir)
     workbook = openpyxl.Workbook()
@@ -27,7 +28,7 @@ def search(dir):
 
     workbook.save(makeFileName_ex(fname))
     workbook.close()
-
+'''
 
 def readXlsxFile(oriPath):
     wb = openpyxl.load_workbook(oriPath)
@@ -49,7 +50,7 @@ def compareData(org, ret):
     for i in range(len(org)):
         if org[i] == None and ret[i] == None:
             #print('[{0}][{1}][{2}]'.format(i, org[i], ret[i]))
-            result.append('0')
+            result.append(0)
         else:
             # 인식률(Recognition rate) 값
             #print('[{0}][{1}]'.format(org[i], ret[i]))
@@ -60,7 +61,7 @@ def recognitionRate(str1, str2):
     text1 = str(str1)
     text2 = str(str2)
     if str1 == None or str2 == None:
-        return '0'
+        return 0
 
     diffCount = countDiff(text1, text2)
     return diffCount
@@ -76,6 +77,21 @@ def countDiff(text1, text2):
     sim = common_text / text_length
     return sim * 100
 
+def averageRecRate(ls):
+    avrColSum = list()
+    lRow = list()
+    arrData = np.array(ls)
+    totalCol = len(arrData[0])
+    totalRow = len(arrData)
+
+    for i in range(totalCol):
+        lRow.clear()
+        for j in range(totalRow):
+            lRow.append(float(arrData[j][i]))
+        #print("[{0}][{1}][{2}]".format(i, totalRow, arrData[j][i]))
+        avrColSum.append(sum(lRow)/totalRow)
+    #print(avrColSum)
+    return avrColSum
 
 def writeCompareResult(xlsxData, txtData, retFileName):
     if len(xlsxData) != len(txtData):
@@ -87,7 +103,8 @@ def writeCompareResult(xlsxData, txtData, retFileName):
     worksheet = workbook.create_sheet(retFileName)
 
     nRows = len(xlsxData)
-    #nCols = len(xlsxData[0])
+    comData = list()
+    colAvr = list()
 
     #print('[{0}][{1}]'.format(len(txtData), len(txtData[0])))
     for i in range(nRows):
@@ -95,15 +112,24 @@ def writeCompareResult(xlsxData, txtData, retFileName):
             worksheet.append(xlsxData[i])
             continue
         else:
+            comData = compareData(xlsxData[i], txtData[i])
+            #new_line = list(map(float, comData))
+            avr = sum(comData)/len(comData)
+            #print("[{0}]".format(avr))
+            #comData.extend(avr)
+            comData.append(avr)
             worksheet.append(txtData[i])
             worksheet.append(xlsxData[i])
-            worksheet.append(compareData(xlsxData[i], txtData[i]))
-        #for j in range(1, nCols):
+            worksheet.append(comData)
+            colAvr.append(comData)
+    #averageRecRate(colAvr)
+    worksheet.append(averageRecRate(colAvr))
+
     os.remove(retFileName)
     workbook.save('ret_'+ retFileName)
     workbook.close()
 
-
+'''
 def readTxtFile(ws, fn):
     #strType = fn.split('_', 1)
     with codecs.open(fn, 'r', encoding="utf-8-sig") as f:
@@ -131,6 +157,7 @@ def readTxtFile(ws, fn):
 
                 ws.cell(row, col).value = val
                 col += 1
+'''
 
 def readTxtFile_ex(fn):
     workbook = openpyxl.Workbook()
