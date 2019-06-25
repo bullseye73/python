@@ -29,7 +29,7 @@ def compareData(org, ret):
     try :
         for i in range(len(org)):
             if org[i] == None and ret[i] == None:
-                print('[{0}][{1}][{2}]'.format(i, org[i], ret[i]))
+                #print('[{0}][{1}][{2}]'.format(i, org[i], ret[i]))
                 result.append(0)
             else:
                 # 인식률(Recognition rate) 값
@@ -89,24 +89,36 @@ def writeCompareResult(xlsxData, txtData, retFileName, type):
     comData = list()
     colAvr = list()
 
-    #print('[{0}][{1}]'.format(len(txtData), len(txtData[0])))
     for i in range(nRows):
         if i == 0:
             worksheet.append(xlsxData[i])
+            # 구분색 추가
+            for j in range(worksheet.max_column+1):
+                c = worksheet.cell(worksheet.max_row, j + 1)
+                c.font = Font(size=10, bold=True)
+                c.fill = PatternFill(fill_type='solid', start_color='FF00fff2', end_color='FF00fff2')
+
             continue
         else:
             comData = compareData(xlsxData[i], txtData[i])
-            #new_line = list(map(float, comData))
             avr = sum(comData)/len(comData)
-            #print("[{0}]".format(avr))
-            #comData.extend(avr)
             comData.append(avr)
             worksheet.append(txtData[i])
             worksheet.append(xlsxData[i])
             worksheet.append(comData)
+            # 구분색 추가
+            for j in range(worksheet.max_column):
+                c = worksheet.cell(worksheet.max_row, j + 1)
+                c.font = Font(size=10, bold=True)
+                c.fill = PatternFill(fill_type='solid', start_color='FFf6ff00', end_color='FFf6ff00')
             colAvr.append(comData)
-    #averageRecRate(colAvr)
+
     worksheet.append(averageRecRate(colAvr))
+    # 구분색 추가
+    for j in range(worksheet.max_column):
+        c = worksheet.cell(worksheet.max_row, j+1)
+        c.font = Font(size=10, bold=True)
+        c.fill = PatternFill(fill_type='solid', start_color='FFADFF2F', end_color='FFADFF2F')
 
     #os.remove(retFileName)
     workbook.save(type + "_ret_" + retFileName)     #
