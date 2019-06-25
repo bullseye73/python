@@ -1,0 +1,240 @@
+﻿"set name","lc (1).jpg"
+"file name","lc (1).jpg"
+"category","LETTER OF CREDIT"
+"category number","1"
+"ISSUING BANK","(SWIFT MT SENDER)",
+"COLLECTING BANK","(SWIFT MT RECEIVER) :",
+"APPLICANT",
+"BENEFICIARY",
+"PORT OF LOADING","",
+"PORT OF DISCHARGE","",
+
+
+﻿"set name","lc (2).jpg"
+"file name","lc (2).jpg"
+"category","LETTER OF CREDIT"
+"category number","1"
+"ISSUING BANK","(SWIFT MT SENDER)",
+"COLLECTING BANK","(SWIFT MT RECEIVER) :","수익자(BENEFICIARY) :",
+"APPLICANT","MMKEMBLA","GLOUCESTERBOULEVARDE","POBOX21","PORTKEMBLANSW2505AUSTRALIA",
+"BENEFICIARY","NUNGWONMETALIND.CO..LTD","314-1,DOHA-RI,EUNHYEON-MYEON","YANGJU-SI.GYEONGGI-DO,","SOUTHKOREA",
+"PORT OF LOADING","",
+"PORT OF DISCHARGE","",
+
+
+﻿"set name","lc (3).jpg"
+"file name","lc (3).jpg"
+"category","LETTER OF CREDIT"
+"category number","1"
+"ISSUING BANK",
+"COLLECTING BANK",
+"APPLICANT",
+"BENEFICIARY",
+"PORT OF LOADING","",
+"PORT OF DISCHARGE","",
+
+
+﻿"set name","lc (4).jpg"
+"file name","lc (4).jpg"
+"category","LETTER OF CREDIT"
+"category number","1"
+"ISSUING BANK",
+"COLLECTING BANK",
+"APPLICANT",
+"BENEFICIARY",
+"PORT OF LOADING","",
+"PORT OF DISCHARGE","",
+
+
+﻿"set name","lc (5).jpg"
+"file name","lc (5).jpg"
+"category","LETTER OF CREDIT"
+"category number","1"
+"ISSUING BANK","(SWIFT MT SENDER) :",
+"COLLECTING BANK","(SWIFT MT RECEIVER) :",
+"APPLICANT",
+"BENEFICIARY",
+"PORT OF LOADING","",
+"PORT OF DISCHARGE","",
+
+
+﻿"set name","lc (6).jpg"
+"file name","lc (6).jpg"
+"category","LETTER OF CREDIT"
+"category number","1"
+"ISSUING BANK","(SWIFT MT SENDER)",
+"COLLECTING BANK","(SWIFT MT RECEIVER) :","수익자(BENEFICIARY) :",
+"APPLICANT","MMKEMBLA","GLOUCESTERBOULEVARDE","POBOX21","PORTKEMBLANSW2505AUSTRALIA",
+"BENEFICIARY","NUNGWONMETALIND.CO..LTD","314-1.DOHA-RI.EUNHYEON-MYEON","YANGJU-SI,GYEONGGI-DO,","SOUTHKOREA",
+"PORT OF LOADING","",
+"PORT OF DISCHARGE","",
+
+
+﻿"set name","lc (7).jpg"
+"file name","lc (7).jpg"
+"category","LETTER OF CREDIT"
+"category number","1"
+"ISSUING BANK",
+"COLLECTING BANK",
+"APPLICANT",
+"BENEFICIARY",
+"PORT OF LOADING","",
+"PORT OF DISCHARGE","",
+
+
+﻿"set name","lc (8).jpg"
+"file name","lc (8).jpg"
+"category","LETTER OF CREDIT"
+"category number","1"
+"ISSUING BANK",
+"COLLECTING BANK",
+"APPLICANT",
+"BENEFICIARY",
+"PORT OF LOADING","",
+"PORT OF DISCHARGE","",
+
+
+﻿"set name","lc (9).jpg"
+"file name","lc (9).jpg"
+"category","LETTER OF CREDIT"
+"category number","1"
+"ISSUING BANK","(SWIFT MT SENDER)",
+"COLLECTING BANK","(SWIFT MT RECEIVER) :",
+"APPLICANT",
+"BENEFICIARY",
+"PORT OF LOADING","",
+"PORT OF DISCHARGE","",
+
+
+﻿"set name","lc (10).jpg"
+"file name","lc (10).jpg"
+"category","LETTER OF CREDIT"
+"category number","1"
+"ISSUING BANK","(SWIFT MT SENDER)",
+"COLLECTING BANK","(SWIFT MT RECEIVER) :","수익 자《BENEFICIARY)",
+"APPLICANT","MMKEMBLA","GLOUCESTERBOULEVARDE","P0BOX21","PORTKEMBLANSW2505AUSTRALIA",
+"BENEFICIARY","NUNGWONMETALIND.CO..LTD","314-1,DOHA-RI,EUNHYEON-MYEON,","YANGJU-SI.GYEONGGI-DO","SOUTHKOREA",
+"PORT OF LOADING","",
+"PORT OF DISCHARGE","",
+
+
+﻿"set name","lc (11).jpg"
+"file name","lc (11).jpg"
+"category","LETTER OF CREDIT"
+"category number","1"
+"ISSUING BANK",
+"COLLECTING BANK",
+"APPLICANT",
+"BENEFICIARY",
+"PORT OF LOADING","",
+"PORT OF DISCHARGE","",
+
+
+﻿"set name","lc (12).jpg"
+"file name","lc (12).jpg"
+"category","LETTER OF CREDIT"
+"category number","1"
+"ISSUING BANK",
+"COLLECTING BANK",
+"APPLICANT",
+"BENEFICIARY",
+"PORT OF LOADING","",
+"PORT OF DISCHARGE","",
+
+
+﻿"set name","lc (13).jpg"
+"file name","lc (13).jpg"
+"category","LETTER OF CREDIT"
+"category number","1"
+"ISSUING BANK",
+"COLLECTING BANK",
+"APPLICANT",
+"BENEFICIARY",
+"PORT OF LOADING","",
+"PORT OF DISCHARGE","",
+
+
+﻿"set name","lc (14).jpg"
+"file name","lc (14).jpg"
+"category","LETTER OF CREDIT"
+"category number","1"
+"ISSUING BANK",
+"COLLECTING BANK",
+"APPLICANT",
+"BENEFICIARY",
+"PORT OF LOADING","",
+"PORT OF DISCHARGE","",
+
+
+﻿"set name","lc (15).jpg"
+"file name","lc (15).jpg"
+"category","LETTER OF CREDIT"
+"category number","1"
+"ISSUING BANK",
+"COLLECTING BANK",
+"APPLICANT",
+"BENEFICIARY",
+"PORT OF LOADING","",
+"PORT OF DISCHARGE","",
+
+
+﻿"set name","lc (16).jpg"
+"file name","lc (16).jpg"
+"category","LETTER OF CREDIT"
+"category number","1"
+"ISSUING BANK",
+"COLLECTING BANK",
+"APPLICANT",
+"BENEFICIARY",
+"PORT OF LOADING","",
+"PORT OF DISCHARGE","",
+
+
+﻿"set name","lc (17).jpg"
+"file name","lc (17).jpg"
+"category","LETTER OF CREDIT"
+"category number","1"
+"ISSUING BANK",
+"COLLECTING BANK",
+"APPLICANT",
+"BENEFICIARY",
+"PORT OF LOADING","",
+"PORT OF DISCHARGE","",
+
+
+﻿"set name","lc (18).jpg"
+"file name","lc (18).jpg"
+"category","LETTER OF CREDIT"
+"category number","1"
+"ISSUING BANK","(SWIFT MT SENDER) IRVTKRSXXXX","THE BANK OF NEW YORK MELLON.","SEOULBRANCH (SEOUL)",
+"COLLECTING BANK","(SWIFT MT RECEIVER) IBKOKRSE","INDUSTRIAL BANK OF KOREA (HEAD","OFFICE SEOUL) SEOUL","수익자(BENEFICIARY) : HAITAI D AND S CORP.","165, DONYU 2-RO, MUNSAN-EUP","PAJU-SI, GYEONGGI-DO, SOUTH KOREA","TEL.:+82-",
+"APPLICANT","ISTEEL,INC.","LOT22-C,PHASE1B.FPIP,BRGY.","ULANGOTANAUANCITY,BATANGAS,","4232PHILIPPINES",
+"BENEFICIARY","HAITAIDANDSCORP.","165.DONYU2-RO,MUNSAN-EUP","PAJU-SI,GYEONGGI-DO,SOUTHKOREA","T-6774",
+"PORT OF LOADING","",
+"PORT OF DISCHARGE","",
+
+
+﻿"set name","lc (19).jpg"
+"file name","lc (19).jpg"
+"category","LETTER OF CREDIT"
+"category number","1"
+"ISSUING BANK",
+"COLLECTING BANK",
+"APPLICANT",
+"BENEFICIARY",
+"PORT OF LOADING","",
+"PORT OF DISCHARGE","",
+
+
+﻿"set name","lc (20).jpg"
+"file name","lc (20).jpg"
+"category","LETTER OF CREDIT"
+"category number","1"
+"ISSUING BANK",
+"COLLECTING BANK",
+"APPLICANT",
+"BENEFICIARY",
+"PORT OF LOADING","",
+"PORT OF DISCHARGE","",
+
+
