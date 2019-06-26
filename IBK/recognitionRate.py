@@ -40,6 +40,11 @@ def compareData(org, ret):
 
     return result
 
+'''
+    인식율 결과 산출
+    str1 : 정답 결과값
+    str2 : OCR 인식값
+'''
 def recognitionRate(str1, str2):
     text1 = str(str1)
     text2 = str(str2)
@@ -58,8 +63,12 @@ def countDiff(text1, text2):
     common_text = sum([len(txt) for op, txt in diff if op == 0])
     text_length = max(len(text1), len(text2))
     sim = common_text / text_length
-    return sim * 100
+    return round(sim * 100, 4)
 
+'''
+    리스트 열의 평균값
+    ls : 리스트 2차 행열
+'''
 def averageRecRate(ls):
     avrColSum = list()
     lRow = list()
@@ -76,6 +85,14 @@ def averageRecRate(ls):
     #print(avrColSum)
     return avrColSum
 
+
+'''
+    OCR 결과와 정답 xlsx 과의 내용 비교
+    xlsxData : 정답데이터
+    txtData : OCR 인식 데이터
+    retFileName : 결과 저장 파일명
+    type : OCR 인식 타입 (BL, INVOICE, LC)
+'''
 def writeCompareResult(xlsxData, txtData, retFileName, type):
     if len(xlsxData) != len(txtData):
         print("Can not compare.")
@@ -92,7 +109,7 @@ def writeCompareResult(xlsxData, txtData, retFileName, type):
     for i in range(nRows):
         if i == 0:
             worksheet.append(xlsxData[i])
-            # 구분색 추가
+            # 구분색 추가, Title
             for j in range(worksheet.max_column+1):
                 c = worksheet.cell(worksheet.max_row, j + 1)
                 c.font = Font(size=10, bold=True)
@@ -109,6 +126,7 @@ def writeCompareResult(xlsxData, txtData, retFileName, type):
             # 구분색 추가
             for j in range(worksheet.max_column):
                 c = worksheet.cell(worksheet.max_row, j + 1)
+                c.value = round(c.value, 4)
                 c.font = Font(size=10, bold=True)
                 c.fill = PatternFill(fill_type='solid', start_color='FFf6ff00', end_color='FFf6ff00')
             colAvr.append(comData)
@@ -117,13 +135,21 @@ def writeCompareResult(xlsxData, txtData, retFileName, type):
     # 구분색 추가
     for j in range(worksheet.max_column):
         c = worksheet.cell(worksheet.max_row, j+1)
+        c.value = round(c.value, 4)
         c.font = Font(size=10, bold=True)
         c.fill = PatternFill(fill_type='solid', start_color='FFADFF2F', end_color='FFADFF2F')
 
-    #os.remove(retFileName)
+    worksheet.cell['1,1:worksheet.max_row,worksheet.max_column'].font = Font(size=9, bold=True)
+
+
+    os.remove(retFileName)
     workbook.save(type + "_ret_" + retFileName)     #
     workbook.close()
 
+'''
+    bl 결과 파일 읽어 xlsx로 저장
+    fn : xlsx 파일명
+'''
 def readTxtFile_bl(fn):
     fi = os.path.split(fn)
     fname, ext = os.path.splitext(fi[1])
@@ -174,6 +200,10 @@ def readTxtFile_bl(fn):
     workbook.save(makeFileName_ex(fname))
     workbook.close()
 
+'''
+    lc 결과 파일 읽어 xlsx로 저장
+    fn : xlsx 파일명
+'''
 def readTxtFile_lc(fn):
     fi = os.path.split(fn)
     fname, ext = os.path.splitext(fi[1])
@@ -215,6 +245,10 @@ def readTxtFile_lc(fn):
     workbook.save(makeFileName_ex(fname))
     workbook.close()
 
+'''
+    invoice 결과 파일 읽어 xlsx로 저장
+    fn : xlsx 파일명
+'''
 def readTxtFile_invoice(fn):
     fi = os.path.split(fn)
     fname, ext = os.path.splitext(fi[1])
@@ -270,9 +304,9 @@ def Usage():
 BL test parameter
     ./result/BL/result_BL_0612.txt ./result/BL/Trade_Data_GT_BL_1.xlsx
 LC test parameter
-    ./result/LC_result_0612.txt ./result/BL/Trade_Data_GT_BL_1.xlsx
+    ./result/LC_result_0612.txt ./result/LC/Trade_Data_LC_result_0612.xlsx
 INVOICE test parameter
-    ./result/invoice_result_0612.txt ./result/BL/Trade_Data_GT_BL_1.xlsx    
+    ./result/Invoice_result_0612.txt ./result/invoice/Trade_Data_invoice_result_0612.xlsx    
 '''
 def main():
     if len(sys.argv) != 3:
