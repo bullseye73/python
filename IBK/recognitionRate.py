@@ -126,20 +126,26 @@ def writeCompareResult(xlsxData, txtData, retFileName, type):
             # 구분색 추가
             for j in range(worksheet.max_column):
                 c = worksheet.cell(worksheet.max_row, j + 1)
-                c.value = round(c.value, 1)
+                if j==0:
+                    c.value = ""
+                else:
+                    c.value = round(c.value, 1)
                 c.font = Font(size=10, bold=True)
                 c.fill = PatternFill(fill_type='solid', start_color='FFf6ff00', end_color='FFf6ff00')
             colAvr.append(comData)
 
     worksheet.append(averageRecRate(colAvr))
     # 구분색 추가
-    '''
+
     for j in range(worksheet.max_column):
         c = worksheet.cell(worksheet.max_row, j+1)
-        c.value = round(c.value, 4)
+        if j==0:
+            c.value = ""
+        else :
+            c.value = round(c.value, 4)
         c.font = Font(size=10, bold=True)
         c.fill = PatternFill(fill_type='solid', start_color='FFADFF2F', end_color='FFADFF2F')
-
+    '''
 #    worksheet.cell['1,1:worksheet.max_row,worksheet.max_column'].font = Font(size=9, bold=True)
 '''
 
