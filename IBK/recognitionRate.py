@@ -33,7 +33,7 @@ def compareData(org, ret):
                 result.append(0)
             else:
                 # 인식률(Recognition rate) 값
-                #print('[{0}][{1}]'.format(org[i], ret[i]))
+                print('[{0}][{1}]'.format(org[i], ret[i]))
                 result.append(recognitionRate(ret[i], org[i])) # (OCR 인식결과, 정답셋 글자수)
     except (IndexError, ValueError):
         print("index error [{0}],[{1}]".format(IndexError, ValueError))
@@ -63,7 +63,7 @@ def countDiff(text1, text2):
     common_text = sum([len(txt) for op, txt in diff if op == 0])
     text_length = max(len(text1), len(text2))
     sim = common_text / text_length
-    return round(sim * 100, 4)
+    return round(sim * 100, 1)
 
 '''
     리스트 열의 평균값
@@ -126,23 +126,24 @@ def writeCompareResult(xlsxData, txtData, retFileName, type):
             # 구분색 추가
             for j in range(worksheet.max_column):
                 c = worksheet.cell(worksheet.max_row, j + 1)
-                c.value = round(c.value, 4)
+                c.value = round(c.value, 1)
                 c.font = Font(size=10, bold=True)
                 c.fill = PatternFill(fill_type='solid', start_color='FFf6ff00', end_color='FFf6ff00')
             colAvr.append(comData)
 
     worksheet.append(averageRecRate(colAvr))
     # 구분색 추가
+    '''
     for j in range(worksheet.max_column):
         c = worksheet.cell(worksheet.max_row, j+1)
         c.value = round(c.value, 4)
         c.font = Font(size=10, bold=True)
         c.fill = PatternFill(fill_type='solid', start_color='FFADFF2F', end_color='FFADFF2F')
 
-    worksheet.cell['1,1:worksheet.max_row,worksheet.max_column'].font = Font(size=9, bold=True)
+#    worksheet.cell['1,1:worksheet.max_row,worksheet.max_column'].font = Font(size=9, bold=True)
+'''
 
-
-    os.remove(retFileName)
+    #os.remove(retFileName)
     workbook.save(type + "_ret_" + retFileName)     #
     workbook.close()
 
@@ -213,7 +214,7 @@ def readTxtFile_lc(fn):
     worksheet.title = fname
 
     #strType = fn.split('_', 1)
-    with codecs.open(fn, 'r', encoding="utf-8-sig") as f:
+    with codecs.open(fn, 'r', encoding="utf-8-sig", errors='ignore') as f:
         row = 1 #cell의 row, col의 값이 1부터임. 0이면 오류
         col = 1
         excepts = ['category', 'category number'] # 사용하지 않는 column
