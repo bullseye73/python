@@ -31,6 +31,8 @@ def compareData(org, ret):
             if org[i] == None and ret[i] == None:
                 #print('[{0}][{1}][{2}]'.format(i, org[i], ret[i]))
                 result.append(0)
+            elif i == 0 :
+                result.append(0)
             else:
                 # 인식률(Recognition rate) 값
                 print('[{0}][{1}]'.format(org[i], ret[i]))
@@ -118,7 +120,7 @@ def writeCompareResult(xlsxData, txtData, retFileName, type):
             continue
         else:
             comData = compareData(xlsxData[i], txtData[i])
-            avr = sum(comData)/len(comData)
+            avr = sum(comData)/(len(comData) -1) # filename 필드 제외
             comData.append(avr)
             worksheet.append(txtData[i])
             worksheet.append(xlsxData[i])
@@ -142,7 +144,7 @@ def writeCompareResult(xlsxData, txtData, retFileName, type):
         if j==0:
             c.value = ""
         else :
-            c.value = round(c.value, 4)
+            c.value = round(c.value, 1)
         c.font = Font(size=10, bold=True)
         c.fill = PatternFill(fill_type='solid', start_color='FFADFF2F', end_color='FFADFF2F')
     '''
