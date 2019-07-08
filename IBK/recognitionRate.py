@@ -28,20 +28,40 @@ def compareData(org, ret):
     result = list()
     try :
         for i in range(len(org)):
-            if org[i] == None and ret[i] == None:
+            if org[i] == None : # or i == 0 or ret[i] == None:
                 #print('[{0}][{1}][{2}]'.format(i, org[i], ret[i]))
                 result.append(0)
             elif i == 0 :
                 result.append(0)
             else:
                 # 인식률(Recognition rate) 값
-                print('[{0}][{1}]'.format(org[i], ret[i]))
+                #print('[{0}][{1}]'.format(org[i], ret[i]))
                 result.append(recognitionRate(ret[i], org[i])) # (OCR 인식결과, 정답셋 글자수)
     except (IndexError, ValueError):
         print("index error [{0}],[{1}]".format(IndexError, ValueError))
 
     return result
 
+
+def compareData_ex(org, ret):
+    result = list()
+    disCount = 0;
+    try :
+        for i in range(len(org)):
+            if org[i] == None: #  and ret[i] == None:
+                print('[{0}][{1}][{2}]'.format(i, org[i], ret[i]))
+                disCount += 1;
+                result.append(0)
+            elif i == 0 :
+                result.append(0)
+            else:
+                # 인식률(Recognition rate) 값
+                #print('[{0}][{1}]'.format(org[i], ret[i]))
+                result.append(recognitionRate(ret[i], org[i])) # (OCR 인식결과, 정답셋 글자수)
+    except (IndexError, ValueError):
+        print("index error [{0}],[{1}]".format(IndexError, ValueError))
+
+    return result, disCount
 '''
     인식율 결과 산출
     str1 : 정답 결과값
@@ -119,8 +139,12 @@ def writeCompareResult(xlsxData, txtData, retFileName, type):
 
             continue
         else:
-            comData = compareData(xlsxData[i], txtData[i])
-            avr = sum(comData)/(len(comData) -1) # filename 필드 제외
+            #comData = compareData(xlsxData[i], txtData[i])
+            comData, dc = compareData_ex(xlsxData[i], txtData[i])
+            if sum(comData) == 0 :
+                avr = sum(comData)
+            else:
+                avr = sum(comData)/(len(comData) - (dc+1)) # filename 필드 제외
             comData.append(avr)
             worksheet.append(txtData[i])
             worksheet.append(xlsxData[i])
@@ -147,9 +171,6 @@ def writeCompareResult(xlsxData, txtData, retFileName, type):
             c.value = round(c.value, 1)
         c.font = Font(size=10, bold=True)
         c.fill = PatternFill(fill_type='solid', start_color='FFADFF2F', end_color='FFADFF2F')
-    '''
-#    worksheet.cell['1,1:worksheet.max_row,worksheet.max_column'].font = Font(size=9, bold=True)
-'''
 
     #os.remove(retFileName)
     workbook.save(type + "_ret_" + retFileName)     #
@@ -187,8 +208,8 @@ def readTxtFile_bl(fn):
             elif rData[0].lower() in excepts:
                 continue
             else:
-                #val = rData[rlen - 1].replace(",", "")
-                val = rData[rlen - 1]
+                val = rData[rlen - 1].replace(",", " ").rstrip()
+                #val = rData[rlen - 1]
                 if row == 2:
                     c = worksheet.cell(row=row-1, column=col)
                     c.font = Font(size=9, bold=True)
@@ -241,8 +262,8 @@ def readTxtFile_lc(fn):
             elif rData[0].lower() in excepts:
                 continue
             else:
-                #val = rData[rlen - 1].replace(",", "")
-                val = rData[rlen - 1]
+                val = rData[rlen - 1].replace(",", " ").rstrip()
+                # val = rData[rlen - 1]
                 if row == 2:
                     c = worksheet.cell(row=row - 1, column=col)
                     c.font = Font(size=9, bold=True)
@@ -286,8 +307,8 @@ def readTxtFile_invoice(fn):
             elif rData[0].lower() in excepts:
                 continue
             else:
-                #val = rData[rlen - 1].replace(",", "")
-                val = rData[rlen - 1]
+                val = rData[rlen - 1].replace(",", " ").rstrip()
+                # val = rData[rlen - 1]
                 if row == 2:
                     c = worksheet.cell(row=row - 1, column=col)
                     c.font = Font(size=9, bold=True)
