@@ -180,7 +180,7 @@ def writeCompareResult(xlsxData, txtData, retFileName, type):
     bl 결과 파일 읽어 xlsx로 저장
     fn : xlsx 파일명
 '''
-def readTxtFile_bl(fn):
+def readTxtFile(fn):
     fi = os.path.split(fn)
     fname, ext = os.path.splitext(fi[1])
 
@@ -208,7 +208,7 @@ def readTxtFile_bl(fn):
             elif rData[0].lower() in excepts:
                 continue
             else:
-                val = rData[rlen - 1].replace(",", " ").rstrip()
+                val = cleanText(rData[rlen - 1])
                 #val = rData[rlen - 1]
                 if row == 2:
                     c = worksheet.cell(row=row-1, column=col)
@@ -216,104 +216,7 @@ def readTxtFile_bl(fn):
                     c.fill = PatternFill(fill_type='solid', start_color='FFADFF2F', end_color='FFADFF2F')
                     c.value = rData[0]
                     #worksheet.cell(row=row-1, column=col).value = rData[0]
-                    '''(name='Calibri',
-...                 size=11,
-...                 bold=False,
-...                 italic=False,
-...                 vertAlign=None,
-...                 underline='none',
-...                 strike=False,
-...                 color='FF000000')'''
 
-                worksheet.cell(row, col).value = val
-                col += 1
-    workbook.save(makeFileName_ex(fname))
-    workbook.close()
-
-'''
-    lc 결과 파일 읽어 xlsx로 저장
-    fn : xlsx 파일명
-'''
-def readTxtFile_lc(fn):
-    fi = os.path.split(fn)
-    fname, ext = os.path.splitext(fi[1])
-
-    workbook = openpyxl.Workbook()
-    worksheet = workbook.active
-    worksheet.title = fname
-
-    #strType = fn.split('_', 1)
-    with codecs.open(fn, 'r', encoding="utf-8-sig", errors='ignore') as f:
-        row = 1 #cell의 row, col의 값이 1부터임. 0이면 오류
-        col = 1
-        excepts = ['category', 'category number'] # 사용하지 않는 column
-
-        for line in f:
-            r = line.replace('\r\n', '').strip()
-            rData = r.replace('"', '').split(',', 1)
-            rlen = len(rData)
-
-            if rlen <= 1:
-                continue
-
-            if 'set name' in rData[0].lower():
-                row += 1
-                col = 1
-            elif rData[0].lower() in excepts:
-                continue
-            else:
-                val = rData[rlen - 1].replace(",", " ").rstrip()
-                # val = rData[rlen - 1]
-                if row == 2:
-                    c = worksheet.cell(row=row - 1, column=col)
-                    c.font = Font(size=9, bold=True)
-                    c.fill = PatternFill(fill_type='solid', start_color='FFADFF2F', end_color='FFADFF2F')
-                    c.value = rData[0]
-
-                worksheet.cell(row, col).value = val
-                col += 1
-    workbook.save(makeFileName_ex(fname))
-    workbook.close()
-
-'''
-    invoice 결과 파일 읽어 xlsx로 저장
-    fn : xlsx 파일명
-'''
-def readTxtFile_invoice(fn):
-    fi = os.path.split(fn)
-    fname, ext = os.path.splitext(fi[1])
-
-    workbook = openpyxl.Workbook()
-    worksheet = workbook.active
-    worksheet.title = fname
-
-    #strType = fn.split('_', 1)
-    with codecs.open(fn, 'r', encoding="utf-8-sig") as f:
-        row = 1 #cell의 row, col의 값이 1부터임. 0이면 오류
-        col = 1
-        excepts = ['category', 'category number'] # 사용하지 않는 column
-
-        for line in f:
-            r = line.replace('\r\n', '').strip()
-            rData = r.replace('"', '').split(',', 1)
-            rlen = len(rData)
-
-            if rlen <= 1:
-                continue
-
-            if 'set name' in rData[0].lower():
-                row += 1
-                col = 1
-            elif rData[0].lower() in excepts:
-                continue
-            else:
-                val = rData[rlen - 1].replace(",", " ").rstrip()
-                # val = rData[rlen - 1]
-                if row == 2:
-                    c = worksheet.cell(row=row - 1, column=col)
-                    c.font = Font(size=9, bold=True)
-                    c.fill = PatternFill(fill_type='solid', start_color='FFADFF2F', end_color='FFADFF2F')
-                    c.value = rData[0]
 
                 worksheet.cell(row, col).value = val
                 col += 1
@@ -329,14 +232,19 @@ def getOCRType(fn):
 def Usage():
     print ("Usage: input 2 file fullpath \n python fileCompare_bl.py [result txt fullpath name] [xlsx file fullpath name]")
 
+def cleanText (text):
+    text = text.replace(",", " ")
+    text = text.replace(".", " ").rstrip()
+    subText = '[=?*’\'•«»<>♦}]'
+    return re.sub(subText, '', text)
 
 '''
 BL test parameter
-    ./result/BL/result_BL_0612.txt ./result/BL/Trade_Data_GT_BL_1.xlsx
+    ./result/BL/result_BL_0612.txt ./excel/RA_BL_result_0702.xlsx
 LC test parameter
-    ./result/LC_result_0612.txt ./result/LC/Trade_Data_LC_result_0612.xlsx
+    ./result/LC_result_0612.txt ./excel/RA_LC_result_0702.xlsx
 INVOICE test parameter
-    ./result/Invoice_result_0612.txt ./result/invoice/Trade_Data_invoice_result_0612.xlsx    
+    ./result/Invoice_result_0612.txt ./excel/RA_INVOICE_result_0702.xlsx  
 '''
 def main():
     if len(sys.argv) != 3:
@@ -346,15 +254,7 @@ def main():
     fname, ext = os.path.splitext(fi[1])
     sType = getOCRType(fname).upper()
 
-    if sType == "BL" :
-        readTxtFile_bl(sys.argv[1])
-    elif sType == "LC":
-        readTxtFile_lc(sys.argv[1])
-    elif sType == "INVOICE":
-        readTxtFile_invoice(sys.argv[1])
-    else:
-        print("It is a file of an unrecognized type.")
-        sys.exit()
+    readTxtFile(sys.argv[1])
 
     txtRet = readXlsxFile(makeFileName_ex(fname))
     xlsxRet = readXlsxFile(sys.argv[2])
