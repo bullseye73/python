@@ -68,8 +68,10 @@ def compareData_ex(org, ret):
     str2 : OCR 인식값
 '''
 def recognitionRate(str1, str2):
-    text1 = str(str1).upper().replace(" ", "")
-    text2 = str(str2).upper().replace(" ", "")
+    text1 = cleanText(str(str1))
+    text2 = cleanText(str(str2))
+    text1 = text1.upper().replace(" ", "")
+    text2 = text2.upper().replace(" ", "")
     if str1 == None or str2 == None:
         return 0
 
@@ -234,13 +236,13 @@ def Usage():
 
 def cleanText (text):
     text = re.sub("[.,]", " ", text)
-    return re.sub('[=?*’\'•«»<>♦—}]', '', text).rstrip().lstrip()
+    return re.sub('[;:=?*’\'•«»<>♦—}]', '', text).rstrip().lstrip()
 
 '''
 BL test parameter
     ./result/BL_result_0710_01.txt ./excel/RA_BL_result_0702.xlsx
 LC test parameter
-    ./result/LC_result_0612.txt ./excel/RA_LC_result_0702.xlsx
+    ./result/LC_result_0710_01.txt ./excel/RA_LC_result_0702.xlsx
 INVOICE test parameter
     ./result/Invoice_result_0612.txt ./excel/RA_INVOICE_result_0702.xlsx  
 '''
