@@ -210,8 +210,8 @@ def readTxtFile(fn):
             elif rData[0].lower() in excepts:
                 continue
             else:
-                val = cleanText(rData[rlen - 1])
-                #val = rData[rlen - 1]
+                #val = cleanText(rData[rlen - 1])
+                val = rData[rlen - 1]
                 if row == 2:
                     c = worksheet.cell(row=row-1, column=col)
                     c.font = Font(size=9, bold=True)
@@ -236,7 +236,7 @@ def Usage():
 
 def cleanText (text):
     text = re.sub("[.,]", " ", text)
-    return re.sub('[;:=?*’\'•«»<>♦—}]', '', text).rstrip().lstrip()
+    return re.sub('[;:\-=?*’\'•«»<>♦—}]', '', text).rstrip().lstrip()
 
 '''
 BL test parameter
