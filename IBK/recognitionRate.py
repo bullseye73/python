@@ -226,7 +226,7 @@ def readTxtFile(fn):
     workbook.close()
 
 def getOCRType(fn):
-    lf = ["BL", "LC", "invoice"]
+    lf = ["BL", "LC", "invoice", "RETIRE"]
     for i in lf:
         if i.lower() in fn.lower():
             return i
@@ -236,7 +236,7 @@ def Usage():
 
 def cleanText (text):
     text = re.sub("[.,]", " ", text)
-    return re.sub('[;:\-=?*’\'•«»<>♦—}]', '', text).rstrip().lstrip()
+    return re.sub('[;:/\-=?*’\'•«»<>♦—}]', '', text).rstrip().lstrip()
 
 '''
 BL test parameter
