@@ -35,7 +35,7 @@ def compareData(org, ret):
                 result.append(0)
             else:
                 # 인식률(Recognition rate) 값
-                #print('[{0}][{1}]'.format(org[i], ret[i]))
+                print('compareData : [{0}][{1}]'.format(org[i], ret[i]))
                 result.append(recognitionRate(ret[i], org[i])) # (OCR 인식결과, 정답셋 글자수)
     except (IndexError, ValueError):
         print("index error [{0}],[{1}]".format(IndexError, ValueError))
@@ -49,14 +49,14 @@ def compareData_ex(org, ret):
     try :
         for i in range(len(org)):
             if org[i] == None: #  and ret[i] == None:
-                print('[{0}][{1}][{2}]'.format(i, org[i], ret[i]))
+                #print('compareData_ex : [{0}][{1}][{2}]'.format(i, org[i], ret[i]))
                 disCount += 1;
                 result.append(0)
             elif i == 0 :
                 result.append(0)
             else:
                 # 인식률(Recognition rate) 값
-                #print('[{0}][{1}]'.format(org[i], ret[i]))
+                #print('compareData_ex : [{0}][{1}]'.format(org[i], ret[i]))
                 result.append(recognitionRate(ret[i], org[i])) # (OCR 인식결과, 정답셋 글자수)
     except (IndexError, ValueError):
         print("index error [{0}],[{1}]".format(IndexError, ValueError))
@@ -76,6 +76,7 @@ def recognitionRate(str1, str2):
         return 0
 
     diffCount = countDiff(text1, text2)
+
     return diffCount
 
 def countDiff(text1, text2):
@@ -109,6 +110,58 @@ def averageRecRate(ls):
     #print(avrColSum)
     return avrColSum
 
+def rateTypeCopy(lt, rtType=80):
+    nlen = len(lt)
+    rateData = list()
+
+    for i in range(nlen) :
+        if (lt[i] <= rtType) :
+            rateData.append(0)
+        else:
+            rateData.append(lt[i])
+
+    return rateData
+
+def averageRow(lt, count):
+    avr = 0
+
+    if sum(lt) == 0:
+        avr = sum(lt)
+    else:
+        avr = sum(lt) / (len(lt) - (count + 1))  # filename 필드 제외
+
+    return avr
+
+def setThemeRow(ws, clr='NONE', name='', isTitle=False):
+    thin = Side(border_style="thin", color="FF000000")
+    double = Side(border_style="double", color="FF000000")
+    thick = Side(border_style="thick", color="FF000000")
+
+    ncol = 0
+    if (isTitle):
+        ncol = 1
+    else:
+        ncol = 0
+
+    for j in range(ws.max_column + ncol):
+        c = ws.cell(ws.max_row, j + 1)
+
+        if (clr != 'NONE') :
+            if (isTitle == False) :
+                if j == 0:
+                    c.value = name
+                    c.font = Font(size=9, bold=False)
+                else:
+                    c.value = round(c.value, 1)
+                    c.font = Font(size=9, bold=True)
+            else:
+                c.alignment = Alignment(horizontal="center", vertical="center")
+                c.border = Border(top=double, left=thin, right=thin, bottom=thick)
+
+            c.fill = PatternFill(fill_type='solid', start_color=clr, end_color=clr)
+        else:
+            c.font = Font(size=9, bold=False)
+
 
 '''
     OCR 결과와 정답 xlsx 과의 내용 비교
@@ -128,51 +181,57 @@ def writeCompareResult(xlsxData, txtData, retFileName, type):
 
     nRows = len(xlsxData)
     comData = list()
+    rt80Data = list()
+    rt90Data = list()
     colAvr = list()
+    col80Avr = list()
+    col90Avr = list()
 
     for i in range(nRows):
         if i == 0:
             worksheet.append(xlsxData[i])
             # 구분색 추가, Title
-            for j in range(worksheet.max_column+1):
-                c = worksheet.cell(worksheet.max_row, j + 1)
-                c.font = Font(size=10, bold=True)
-                c.fill = PatternFill(fill_type='solid', start_color='FF00fff2', end_color='FF00fff2')
-
+            setThemeRow(worksheet, 'FF00fff2','' , True)
             continue
         else:
             #comData = compareData(xlsxData[i], txtData[i])
             comData, dc = compareData_ex(xlsxData[i], txtData[i])
-            if sum(comData) == 0 :
-                avr = sum(comData)
-            else:
-                avr = sum(comData)/(len(comData) - (dc+1)) # filename 필드 제외
-            comData.append(avr)
-            worksheet.append(txtData[i])
+            rt80Data = rateTypeCopy(comData, 80)
+            rt90Data = rateTypeCopy(comData, 90)
+
+            comData.append(averageRow(comData, dc))
+            rt80Data.append(averageRow(rt80Data, dc))
+            rt90Data.append(averageRow(rt90Data, dc))
+
+            # 정답지
             worksheet.append(xlsxData[i])
+            setThemeRow(worksheet)
+            # 인식 결과
+            worksheet.append(txtData[i])
+            setThemeRow(worksheet)
+
+            # 인식률
             worksheet.append(comData)
-            # 구분색 추가
-            for j in range(worksheet.max_column):
-                c = worksheet.cell(worksheet.max_row, j + 1)
-                if j==0:
-                    c.value = ""
-                else:
-                    c.value = round(c.value, 1)
-                c.font = Font(size=10, bold=True)
-                c.fill = PatternFill(fill_type='solid', start_color='FFf6ff00', end_color='FFf6ff00')
+            setThemeRow(worksheet, 'fffff79d', '문자 단위 인식율')
+
+            # 인식률 (80이하 버림.)
+            worksheet.append(rt80Data)
+            setThemeRow(worksheet, 'fffffabe', '필드 단위 인식율(기준값 80 이하=0)')
+
+            # 인식률 (90이하 버림.)
+            worksheet.append(rt90Data)
+            setThemeRow(worksheet, 'fffffcdf', '필드 단위 인식율(기준값 90 이하=0)')
+
             colAvr.append(comData)
+            col80Avr.append(rt80Data)
+            col90Avr.append(rt90Data)
 
     worksheet.append(averageRecRate(colAvr))
-    # 구분색 추가
-
-    for j in range(worksheet.max_column):
-        c = worksheet.cell(worksheet.max_row, j+1)
-        if j==0:
-            c.value = ""
-        else :
-            c.value = round(c.value, 1)
-        c.font = Font(size=10, bold=True)
-        c.fill = PatternFill(fill_type='solid', start_color='FFADFF2F', end_color='FFADFF2F')
+    setThemeRow(worksheet, 'FFbbef6c', '문자 단위 인식율 평균')
+    worksheet.append(averageRecRate(col80Avr))
+    setThemeRow(worksheet, 'FFcbff7b', '필드 단위 인식율(기준값 80 이하=0) 평균')
+    worksheet.append(averageRecRate(col90Avr))
+    setThemeRow(worksheet, 'FFebff99', '필드 단위 인식율(기준값 90 이하=0) 평균')
 
     #os.remove(retFileName)
     workbook.save(type + "_ret_" + retFileName)     #
@@ -254,12 +313,16 @@ def main():
     fname, ext = os.path.splitext(fi[1])
     sType = getOCRType(fname).upper()
 
+    print("Start read file : [{0}] Type : [{1}]".format(fname, ext))
     readTxtFile(sys.argv[1])
 
     txtRet = readXlsxFile(makeFileName_ex(fname))
-    xlsxRet = readXlsxFile(sys.argv[2])
-    writeCompareResult(xlsxRet, txtRet, makeFileName_ex(fname), sType)
 
+    print("Compare with file : [{0}]".format(sys.argv[2]))
+    xlsxRet = readXlsxFile(sys.argv[2])
+
+    writeCompareResult(xlsxRet, txtRet, makeFileName_ex(fname), sType)
+    print("Compare end output file : [{0}]", makeFileName_ex(fname))
 
 if __name__ == '__main__':
     main()
