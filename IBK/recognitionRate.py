@@ -19,6 +19,9 @@ def readXlsxFile(oriPath):
     for row in rows:
         cv = []
         for cell in row:
+            if (cell.col_idx == 1):
+                #print("cell.value : {0}".format(cell.value))
+                cv.append('No')
             cv.append(cell.value)
         values.append(cv)
     wb.close()
@@ -48,20 +51,24 @@ def compareData_ex(org, ret):
     disCount = 0;
     try :
         for i in range(len(org)):
+            print('compareData_ex : [{0}][{1}][{2}]'.format(i, org[i], ret[i]))
+
             if org[i] == None: #  and ret[i] == None:
-                #print('compareData_ex : [{0}][{1}][{2}]'.format(i, org[i], ret[i]))
                 disCount += 1;
                 result.append(0)
             elif i == 0 :
                 result.append(0)
+            elif i == 1:
+                result.append(0)
             else:
                 # 인식률(Recognition rate) 값
-                #print('compareData_ex : [{0}][{1}]'.format(org[i], ret[i]))
                 result.append(recognitionRate(ret[i], org[i])) # (OCR 인식결과, 정답셋 글자수)
     except (IndexError, ValueError):
         print("index error [{0}],[{1}]".format(IndexError, ValueError))
 
+    print('compareData_ex end disCount : [{0}]'.format(disCount))
     return result, disCount
+
 '''
     인식율 결과 산출
     str1 : 정답 결과값
@@ -124,44 +131,79 @@ def rateTypeCopy(lt, rtType=80):
 
 def averageRow(lt, count):
     avr = 0
+    exceptCount = 2 # filename 필드, No필드 제외
 
     if sum(lt) == 0:
         avr = sum(lt)
     else:
-        avr = sum(lt) / (len(lt) - (count + 1))  # filename 필드 제외
+        avr = sum(lt) / (len(lt) - (count + exceptCount))
 
     return avr
+
+
+def setCellMerge(ws, row):
+    interval = 5    # 관련 행 갯수
+    startRow = ws.max_row - interval
+    thin = Side(border_style="thin", color="FF000000")
+
+    c = ws.cell(startRow + 1, 1)
+    c.font = Font(size=9, bold=True)
+    c.alignment = Alignment(horizontal="center", vertical="center")
+    c.value = row
+    #c.fill = PatternFill(fill_type='solid', start_color='fffffcdf', end_color='fffffcdf')
+
+    ws.merge_cells(start_row=startRow+1, start_column=1, end_row=ws.max_row, end_column=1)
+    for i in range(ws.max_column):
+        col = ws.cell(ws.max_row, i + 1)
+        col.border = Border(top=None, left=None, right=None, bottom=thin)
+
+
 
 def setThemeRow(ws, clr='NONE', name='', isTitle=False):
     thin = Side(border_style="thin", color="FF000000")
     double = Side(border_style="double", color="FF000000")
     thick = Side(border_style="thick", color="FF000000")
 
-    ncol = 0
+    ncol = ws.max_column
     if (isTitle):
-        ncol = 1
+        ncol = ncol + 2
     else:
-        ncol = 0
+        ncol = ncol + 1
 
-    for j in range(ws.max_column + ncol):
-        c = ws.cell(ws.max_row, j + 1)
+    for j in range(1, ncol):
+        c = ws.cell(ws.max_row, j)
+        c.font = Font(size=9, bold=False)
 
         if (clr != 'NONE') :
             if (isTitle == False) :
-                if j == 0:
+                if j == 1:
+                    c.value = ''
+                    c.font = Font(size=9, bold=True)
+                elif (j == 2):
                     c.value = name
-                    c.font = Font(size=9, bold=False)
-                else:
+                elif (j == ws.max_column):
+                    ws.column_dimensions[c.column_letter].width = 6
                     c.value = round(c.value, 1)
                     c.font = Font(size=9, bold=True)
+                else:
+                    c.value = round(c.value, 1)
+#                    c.font = Font(size=9, bold=True)
             else:
+                if (j == 1):
+                    ws.column_dimensions[c.column_letter].width = 4
+                elif (j == 2):
+                    ws.column_dimensions[c.column_letter].width = 46
+                else:
+                    ws.column_dimensions[c.column_letter].width = 24
+
+
                 c.font = Font(size=9, bold=True)
                 c.alignment = Alignment(horizontal="center", vertical="center")
                 c.border = Border(top=double, left=thin, right=thin, bottom=thick)
 
             c.fill = PatternFill(fill_type='solid', start_color=clr, end_color=clr)
-        else:
-            c.font = Font(size=9, bold=False)
+        #else:
+        #    c.font = Font(size=9, bold=False)
 
 
 '''
@@ -207,6 +249,7 @@ def writeCompareResult(xlsxData, txtData, retFileName, type):
             # 정답지
             worksheet.append(xlsxData[i])
             setThemeRow(worksheet)
+
             # 인식 결과
             worksheet.append(txtData[i])
             setThemeRow(worksheet)
@@ -226,6 +269,8 @@ def writeCompareResult(xlsxData, txtData, retFileName, type):
             colAvr.append(comData)
             col80Avr.append(rt80Data)
             col90Avr.append(rt90Data)
+
+            setCellMerge(worksheet, i)
 
     worksheet.append(averageRecRate(colAvr))
     setThemeRow(worksheet, 'FFbbef6c', '문자 단위 인식율 평균')
