@@ -155,6 +155,7 @@ def setThemeRow(ws, clr='NONE', name='', isTitle=False):
                     c.value = round(c.value, 1)
                     c.font = Font(size=9, bold=True)
             else:
+                c.font = Font(size=9, bold=True)
                 c.alignment = Alignment(horizontal="center", vertical="center")
                 c.border = Border(top=double, left=thin, right=thin, bottom=thick)
 
