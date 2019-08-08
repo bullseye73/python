@@ -1,0 +1,56 @@
+-
+  field: CONSIGNEE
+  keywords:
+    - consignee
+    - coksfindh
+    - ccnmhufl
+-
+  field: CARRIER/MASTER/OWNER
+  keywords:
+    - carrier
+    - master
+    - owner
+-
+  field: NOTIFY
+  keywords:
+    - notify party
+    - notifyadress
+    - notify address
+    - not.fy
+-
+  field: PORT OF DISCHARGE
+  keywords:
+    - port of discharge
+    - portof dgowtge
+    - portof oiscmwz
+    - pott ot osc*oroe
+    - port ol discharge
+-
+  field: PORT OF LOADING
+  keywords:
+    - port of loading
+    - port of loading
+    - portof loacim5
+    - pott ct loadrrg
+    - port of load ng
+    - port of biding
+-
+  field: ON BOARD DATE
+  keywords:
+    - on board
+    - on board date
+    - on board dale
+    - loaded on board
+    - laden on board
+    - laden on board the vessel
+    - date laden on board
+    - shipped on boared
+    - shipped on board date
+    - ladenfiftboard
+-
+  field: VESSEL NAME
+  keywords:
+    - vessel
+    - ocean vessel
+    - name of vessel
+    - kesset kovage no

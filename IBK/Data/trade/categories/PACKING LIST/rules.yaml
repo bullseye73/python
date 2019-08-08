@@ -1,0 +1,39 @@
+-
+  field: SELLER
+  keywords:
+    - seller
+-
+  field: BUYER
+  keywords:
+    - buyer
+- 
+  field: EXPORTER
+  keywords:
+    - exporter
+-
+  field: APPLICANT
+  keywords:
+    - applicant
+    - to applicant
+-
+  field: CONSIGNEE
+  keywords:
+    - consignee
+    - consigned to
+-
+  field: NOTIFY
+  keywords:
+    - notify
+-
+  field: PORT OF LOADING
+  keywords:
+    - port of loading
+-
+  field: VESSEL NAME
+  keywords:
+    - vessel
+-
+  field: ORIGIN
+  keywords:
+    - country of origin
+    - origin
