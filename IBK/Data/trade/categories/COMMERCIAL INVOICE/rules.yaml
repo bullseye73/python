@@ -1,0 +1,77 @@
+-
+  field: SELLER
+  keywords:
+    - seller
+    - shipper/exporter
+    - shipper
+    - exporter
+-
+  field: BUYER
+  keywords:
+    - buyer
+- 
+  field: EXPORTER
+  keywords:
+    - exporter
+-
+  field: APPLICANT
+  keywords:
+    - applicant
+    - to applicant
+    - for account & risk of messrs.
+-
+  field: CONSIGNEE
+  keywords:
+    - consignee
+    - consigned to
+-
+  field: NOTIFY
+  keywords:
+    - notify
+-
+  field: PORT OF LOADING
+  keywords:
+    - port of loading
+-
+  field: PORT OF DISCHARGE
+  keywords:
+    - port of discharge
+    - port of discharging
+    - final destination
+-
+  field: VESSEL NAME
+  keywords:
+    - vessel
+    - carrier
+-
+  field: ORIGIN
+  keywords:
+    - country of origin
+    - origin
+-
+  field: L/C NO
+  keywords:
+    - l/c no
+    - documentary credit number
+    - documentary credit number & date of issue
+    - no of l/c or p/o
+    - no. of l/c
+-
+  field: GOODS DESCRIPTION
+  keywords:
+    - description of goods
+    - goods and/or service
+    - goods or/and service
+    - goods description
+    - commodities shopped
+    - commodity & description
+-
+  field: CURRENCY SIGN
+  keywords:
+    - amount
+    - unit price
+    - u/price
+-
+  field: AMOUNT
+  keywords:
+    - total
