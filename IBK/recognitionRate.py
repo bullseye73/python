@@ -122,7 +122,7 @@ def rateTypeCopy(lt, rtType=80):
     rateData = list()
 
     for i in range(nlen) :
-        if (lt[i] <= rtType) :
+        if (lt[i] < rtType) :
             rateData.append(0)
         else:
             rateData.append(lt[i])
