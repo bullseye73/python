@@ -260,11 +260,11 @@ def writeCompareResult(xlsxData, txtData, retFileName, type):
 
             # 인식률 (80이하 버림.)
             worksheet.append(rt80Data)
-            setThemeRow(worksheet, 'fffffabe', '필드 단위 인식율(기준값 80 이하=0)')
+            setThemeRow(worksheet, 'fffffabe', '필드 단위 인식율(기준값 80 미만=0)')
 
             # 인식률 (90이하 버림.)
             worksheet.append(rt90Data)
-            setThemeRow(worksheet, 'fffffcdf', '필드 단위 인식율(기준값 90 이하=0)')
+            setThemeRow(worksheet, 'fffffcdf', '필드 단위 인식율(기준값 90 미만=0)')
 
             colAvr.append(comData)
             col80Avr.append(rt80Data)
@@ -275,9 +275,9 @@ def writeCompareResult(xlsxData, txtData, retFileName, type):
     worksheet.append(averageRecRate(colAvr))
     setThemeRow(worksheet, 'FFbbef6c', '문자 단위 인식율 평균')
     worksheet.append(averageRecRate(col80Avr))
-    setThemeRow(worksheet, 'FFcbff7b', '필드 단위 인식율(기준값 80 이하=0) 평균')
+    setThemeRow(worksheet, 'FFcbff7b', '필드 단위 인식율(기준값 80 미만=0) 평균')
     worksheet.append(averageRecRate(col90Avr))
-    setThemeRow(worksheet, 'FFebff99', '필드 단위 인식율(기준값 90 이하=0) 평균')
+    setThemeRow(worksheet, 'FFebff99', '필드 단위 인식율(기준값 90 미만=0) 평균')
 
     #os.remove(retFileName)
     workbook.save(type + "_ret_" + retFileName)     #
@@ -341,7 +341,7 @@ def Usage():
 
 def cleanText (text):
     text = re.sub("[.,]", " ", text)
-    return re.sub('[;:/\-=?*’\'•«»<>♦—()}]', '', text).rstrip().lstrip()
+    return re.sub('[;:/\-=?*’\'•«»<>+♦—()}]', '', text).rstrip().lstrip()
 
 '''
 BL test parameter
