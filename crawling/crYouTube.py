@@ -3,19 +3,16 @@ import urllib.request
 from urllib import parse
 import re
 import sys
-# json data make
 import json
-from collections import OrderedDict
+
+# json data make
+
+# from collections import OrderedDict
 
 # Ready for data
-group_data = OrderedDict()
-top10 = OrderedDict()
-
-OUTPUT_FILE_NAME = 'output.txt'
-
+#group_data = OrderedDict()
+#OUTPUT_FILE_NAME = 'output.txt'
 URL = 'https://www.youtube.com'
-TOP10_URL = 'https://news.naver.com'
-
 
 #
 def get_text(URL, keyword=''):
@@ -26,22 +23,14 @@ def get_text(URL, keyword=''):
 
     source_code_from_URL = urllib.request.urlopen(searchURL)
     soup = BeautifulSoup(source_code_from_URL, 'lxml', from_encoding='utf-8')
-    #i = 0
     text = {}
     arrData = []
-    #print(soup)
-    '''
-    for img in soup.findAll('img', attrs={'class':'style-scope yt-img-shadow'}):
-        #print (img.attrs['src'])
-        print(img)
-        print("=============================================")
-    '''
+    #jsonData = {}
+
+
     for lt in soup.find_all('div', attrs={'class': 'yt-lockup-content'}):
-        #for list in lt.select("a", attrs={'class': 'yt-uix-tile-link'}):
-        #list = lt.select("a", attrs={'class': 'yt-uix-tile-link'})
 
         for list in lt.select("a", attrs={'class': 'yt-uix-tile-link'}) :
-            #print("list:{0},{1}".format(list.text, list.attrs['href']))
             text['title'] = list.text
             text['href'] = URL + list.attrs['href']
             break
@@ -51,21 +40,14 @@ def get_text(URL, keyword=''):
                 text['viewCount'] = l.text
             else:
                 text['update'] = l.text
-        #arrData.insert(arrData.count(text)+1, text)
-        arrData.append(text)
-        print(text)
-        #print('test:{0}, count:{1}'.format(text, arrData.count(text)))
+
+        jsonData = json.dumps(text, ensure_ascii=False)
+        arrData.append(jsonData)
+        print("index[{0}], data[{1} ".format(len(arrData), jsonData))
 
     print("---------------------------------------------------------")
 
-    print(arrData)
-
-    #jsondata = json.dumps(text, ensure_ascii=False, indent=2)  # , separators=(',', ': '), sort_keys=True)
-
-    #print(jsondata)
-    #return jsondata
-
-
+    return arrData
 #
 def clean_text(text):
     cleaned_text = re.sub('[a-zA-Z]', '', text)
@@ -85,8 +67,6 @@ def main():
         print(get_text(URL, sys.argv[1].encode()))
 
 
-
 if __name__ == '__main__':
     main()
-
 
