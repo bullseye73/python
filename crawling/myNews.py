@@ -1,7 +1,7 @@
  
 from bs4 import BeautifulSoup
 import urllib.request
-import re
+import re,sys
 
 
 #json data make
@@ -45,14 +45,16 @@ def get_top_10(URL):
         i += 1
         
         arrData=[]
+        #print(category)
         for title in category.select('a'):
-            arrData.append({ 'title': title.text , 'url':'#' })
+            #print("title[{0}], href[{1}]".format(title.text, URL+title.attrs['href']))
+            arrData.append({ 'title': title.text , 'url': URL+title.attrs['href'] })
         
         text[ranks.text] = arrData
         
     jsondata = json.dumps(text, ensure_ascii=False, indent=2) #, separators=(',', ': '), sort_keys=True)
 
-    print(jsondata)
+    #print(jsondata)
     return jsondata
 
 # 
@@ -61,28 +63,21 @@ def clean_text(text):
     cleaned_text = re.sub('[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]', '', cleaned_text)
     return cleaned_text
 
-# 
+def Usage():
+    print ("Usage: input youtube keyword")
+#
 def main():
- #   open_output_file = open(OUTPUT_FILE_NAME, 'w')
- #   result_text = get_text(URL)
-    #result_text = clean_text(get_top_news(URL))
-    
     result_top = get_top_10(TOP10_URL)
     jsData = json.loads(result_top)
-    #print(jsData['정치']['title'])
-    for tit in jsData['정치']:
-        print(tit['title'])
 
-    #print (result_text)
-    #print ('\n=====================================================================\n')
-    #print (result_top)
+    if len(sys.argv) != 2:
+        Usage()
+        print(jsData)
+    else:
+        print(jsData[sys.argv[1]])
 
-#    result_text = clean_text(result_text)
-    #open_output_file.write(clean_text(result_text) +'-----------\n'+ clean_text(result_top))
-#    open_output_file.write(result_top)
-#    open_output_file.close()
-    
- 
+
+
 if __name__ == '__main__':
     main()
 

@@ -5,9 +5,10 @@ import re
 import sys
 import json
 
+from collections import OrderedDict
 # json data make
 
-# from collections import OrderedDict
+
 
 # Ready for data
 #group_data = OrderedDict()
@@ -23,7 +24,7 @@ def get_text(URL, keyword=''):
 
     source_code_from_URL = urllib.request.urlopen(searchURL)
     soup = BeautifulSoup(source_code_from_URL, 'lxml', from_encoding='utf-8')
-    text = {}
+    odData = OrderedDict()
     arrData = []
     #jsonData = {}
 
@@ -31,17 +32,17 @@ def get_text(URL, keyword=''):
     for lt in soup.find_all('div', attrs={'class': 'yt-lockup-content'}):
 
         for list in lt.select("a", attrs={'class': 'yt-uix-tile-link'}) :
-            text['title'] = list.text
-            text['href'] = URL + list.attrs['href']
+            odData['title'] = list.text
+            odData['href'] = URL + list.attrs['href']
             break
 
         for l in lt.select('div ul.yt-lockup-meta-info li'):
             if ("조회수" in l.text) :
-                text['viewCount'] = l.text
+                odData['viewCount'] = l.text
             else:
-                text['update'] = l.text
+                odData['update'] = l.text
 
-        jsonData = json.dumps(text, ensure_ascii=False)
+        jsonData = json.dumps(odData, ensure_ascii=False)
         arrData.append(jsonData)
         print("index[{0}], data[{1} ".format(len(arrData), jsonData))
 
