@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>
+            Hello world!
+        </title>
+    </head>
+    <body>
+        <h5>Start Flask world!!</h5>
+        {% block content %}
+        <div>
+            <div>
+            {% for ret in result %}
+            <article>
+                <h1>{{ ret.title }}</h1>
+                <p><a href='{{ ret.href}}'>{{ ret.href}}</a></p>
+                <div>
+                <p>{{ ret.viewCount }}</p>
+                <p>{{ ret.update }}</p>
+                </div>
+            </article>
+            {% endfor %}
+            </div>
+        </div>
+        {% endblock %}
+    </body>
+</html>
+
