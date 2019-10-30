@@ -2,21 +2,22 @@
 <html>
     <head>
         <title>
-            Hello world!
+           {{ result[0].keyword }} search result!!
         </title>
     </head>
     <body>
-        <h5>Start Flask world!!</h5>
+        <h1>{{ result[0].keyword }} search result!!</h1>
+
         {% block content %}
         <div>
             <div>
             {% for ret in result %}
             <article>
-                <h1>{{ ret.title }}</h1>
+                <h2>{{ ret.title }}</h2>
                 <p><a href='{{ ret.href}}'>{{ ret.href}}</a></p>
                 <div>
                 <p>{{ ret.viewCount }}</p>
-                <p>{{ ret.update }}</p>
+                <p>{{ ret.upDate }}</p>
                 </div>
             </article>
             {% endfor %}
