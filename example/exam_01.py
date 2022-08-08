@@ -2,9 +2,11 @@
 import os
 import re
 from openpyxl import Workbook
+from openpyxl.utils import get_column_letter
 
 #import xlsxwriter
 g_fileName = "/Users/chang-hunjeong/workspace/python/example/data.json"
+DEF_LINE = "============================================================="
 #xlsFile = None
 
 parse_data = {
@@ -35,15 +37,33 @@ def openXlsFile():
     return ws
 
 def saveXlsFile(_worksheet, _fileName):
-    print("==========================")
+    print(DEF_LINE)
     print(_fileName)
-    print("==========================\n")
+    print(DEF_LINE)
     _worksheet.save(_fileName)
     return True
 
 def writeXlsFile(_worksheet, _inputData):
-    _worksheet.append(_inputData)
-    return True
+	rowTitle = []
+	rowData = []
+	
+	
+	for row in _inputData:
+		if _worksheet.max_row == 1:
+			rowTitle.append(row[0])
+		if row[0] == 'CONNECT_RES':
+			if _worksheet.max_row == 1 :
+				rowTitle.append("TID")
+			rowData.append(row[1])
+			rowData.append(row[2])
+			#print("TID : {}".format(row[2]))
+		else:
+			rowData.append(row[1])
+			#print(row[1])
+	if _worksheet.max_row == 1 :
+		_worksheet.append(rowTitle)
+	_worksheet.append(rowData)
+	return True
 
 # 로그가 들어가면 키값과 value가 리턴한다.
 def match_log(_value):
@@ -74,12 +94,15 @@ def match_log(_value):
 def readFileName(path, _worksheet):
 	row = 0
 	result = []
+	apData = []
 	f = open(path, 'r', encoding='UTF8')
 	while True:
 		line = f.readline()
 		if "----" in line:
 			row = 0
-			print("======================\n")
+			writeXlsFile(_worksheet, apData)
+			apData.clear()
+			print(DEF_LINE)
 			continue
 		if not line:
 			#print("{}".format(result))
@@ -89,8 +112,8 @@ def readFileName(path, _worksheet):
 		result = match_log(line)
 		if result != '':
 			if result is not None:
-				print("{}".format(result))
-				writeXlsFile(_worksheet, result)
+				#print("{}".format(result))
+				apData.append(result)
 		row += 1
 	f.close()
 		
@@ -98,6 +121,8 @@ def readFileName(path, _worksheet):
 def main():
 	wb = Workbook()
 	ws = wb.active
+	#ws.max_row
+	
 	fname, ext = os.path.splitext(g_fileName)
 	#worksheet = openXlsFile()
 	readFileName(g_fileName, ws)
