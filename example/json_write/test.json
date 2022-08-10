@@ -1,0 +1,9 @@
+{
+	"name": "Tyler",
+	"gender": "male",
+	"age": "28",
+	"hobby": [
+		"dev",
+		"그림 그리기"
+	]
+}
