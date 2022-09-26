@@ -10,7 +10,7 @@
             "request": "launch",
             "module": "renamer",
             "justMyCode": true,
-            "args": ["/Users/chang-hunjeong/workspace/python/example/rename/sample"]
+            "args": ["/Users/chang-hunjeong/workspace/python/example/rename/sample/"]
         }
     ]
 }

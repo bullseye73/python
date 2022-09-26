@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
 
-import sys, os, re, string
-from glob import glob
+import sys, os, re
+
 BRAND_TIT = [['caribbeancom', 'carib','caribbean'], 
              ['heyzo', 'hey'],
              ['1pondo','1 pondo', '1pon', 'pondo'],
@@ -26,14 +26,14 @@ def makeFilename(_brand, _no, _date):
 def rename_file(name):
     #print("FILENAME={0}".format(name))  # Press Ctrl+F8 to toggle the breakpoint.
     pt_brand = '[a-zA-Z]{2}2|[a-zA-Z]+'   # find 알파벳으로된 모든 문자열.
-    pt_no = '[0-9]{6}-[0-9]{4}|[0-9]{7}-[0-9]{3}|[0-9]{7}|[a-z]{3,4}-[0-9]{2,4}' # ######-#### no 패턴
+    pt_no = '[0-9]{6,7}-[0-9]{3,4}|[0-9]{7}-[0-9]{3}|[0-9]{7}|[a-z]{3,4}-[0-9]{2,4}' # ######-#### no 패턴
     pt_date = '20\d{2}[-|.]\d{2}[-|.]\d{2}|20\d{2}'
     strBrand = re.findall(pt_brand, name)
     strNo = re.findall(pt_no, name)
     strDate = re.findall(pt_date, name)
-    #print("Brand=[{}]\nNo=[{}]\nDate={}".format(strBrand, strNo, strDate))
+    print("Brand=[{}]\nNo=[{}]\nDate={}".format(strBrand, strNo, strDate))
     #print("TITLE={}".format(findTitle(strBrand)))
-    return makeFilename(findTitle(strBrand), strNo, strDate)
+    return #makeFilename(findTitle(strBrand), strNo, strDate)
 
 def findTitle(_strBrand):
     for i in range(len(_strBrand)):
